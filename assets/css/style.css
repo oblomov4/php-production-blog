@@ -198,3 +198,63 @@ body {
     font-size: 18px;
     padding: 20px 0;
 }
+
+
+/* Стили для форм авторизации */
+.auth {
+    padding: 80px 0;
+}
+
+.auth__form {
+    max-width: 400px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.auth__title {
+    font-size: 32px;
+    color: #000638;
+    margin-bottom: 30px;
+}
+
+.form__group {
+    margin-bottom: 20px;
+}
+
+.form__input {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.form__button {
+    width: 100%;
+    padding: 15px;
+    background: #000638;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+.form__button:hover {
+    background: #001a66;
+}
+
+.auth__link {
+    color: #605C59;
+}
+
+.auth__link a {
+    color: #000638;
+    text-decoration: none;
+}
+
+.auth__link a:hover {
+    text-decoration: underline;
+}
