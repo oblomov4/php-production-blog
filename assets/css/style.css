@@ -258,3 +258,48 @@ body {
 .auth__link a:hover {
     text-decoration: underline;
 }
+
+
+/* Стили для админки */
+.admin {
+    padding: 80px 0;
+}
+
+.admin__title {
+    font-size: 32px;
+    color: #000638;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.admin__actions {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.admin__button {
+    padding: 15px 30px;
+    background: #000638;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: background 0.3s ease;
+}
+
+.admin__button:hover {
+    background: #001a66;
+}
+
+.form__textarea {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+    resize: vertical;
+    font-family: inherit;
+}
