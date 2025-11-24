@@ -303,3 +303,41 @@ body {
     resize: vertical;
     font-family: inherit;
 }
+
+
+/* Стили для списка статей */
+.posts-list {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.post-item {
+    border: 1px solid #eee;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.post-item__title {
+    font-size: 18px;
+    color: #000638;
+    margin-bottom: 5px;
+}
+
+.post-item__date {
+    color: #605C59;
+    font-size: 14px;
+}
+
+.post-item__delete {
+    color: #dc3545;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.post-item__delete:hover {
+    text-decoration: underline;
+}
