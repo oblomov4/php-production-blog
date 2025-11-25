@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>АДМИН ПАНЕЛЬ PHP</title>
+    <title>АДМИН ПАНЕЛЬ PHP - ПОСТЫ</title>
     <link rel="stylesheet" href="../assets/css/reset.css">
     <link rel="stylesheet" href="../assets/css/style.css">
 </head>
@@ -19,10 +19,10 @@
 
                 <ul class="nav__list">
                     <li class="nav__list-item">
-                        <a href="" class="nav__list-link">Blog</a>
+                        <a href="../index.php" class="nav__list-link">Блог</a>
                     </li>
                     <li class="nav__list-item">
-                        <a href="" class="nav__list-link">Contact</a>
+                        <a href="../contact.php" class="nav__list-link">Контакты</a>
                     </li>
                 </ul>
             </nav>

@@ -9,6 +9,7 @@
     </head>
 
     <body>
+        <?php require_once "auth/functions.php"; ?>
         <header class="header">
             <div class="container">
                 <nav class="nav">
@@ -23,9 +24,17 @@
                                 >Контакты</a
                             >
                         </li>
-                        <li class="nav__list-item">
-                            <a href="login.php" class="nav__list-link">Вход</a>
-                        </li>
+                        <?php if (!isAuth()): ?>
+                            <li class="nav__list-item">
+                                <a href="login.php" class="nav__list-link">Вход</a>
+                            </li>
+                        <?php endif; ?>
+
+                        <?php if (isAdmin()): ?>
+                            <li class="nav__list-item">
+                                <a href="/blog/admin" class="nav__list-link">Админка</a>
+                            </li>
+                        <?php endif; ?>
                     </ul>
                 </nav>
             </div>

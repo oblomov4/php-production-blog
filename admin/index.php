@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>АДМИН ПАНЕЛЬ PHP</title>
+        <link rel="stylesheet" href="../assets/css/reset.css" />
+        <link rel="stylesheet" href="../assets/css/style.css" />
+    </head>
+
+    <body>
+
+<?php
+require_once "../auth/functions.php";
+requireAdmin();
+?>
+        <header class="header">
+            <div class="container">
+                <nav class="nav">
+                    <h2 class="nav__logo">php blog</h2>
+
+                    <ul class="nav__list">
+                        <li class="nav__list-item">
+                            <a href="../index.php" class="nav__list-link"
+                                >Блог</a
+                            >
+                        </li>
+                        <li class="nav__list-item">
+                            <a href="../contact.php" class="nav__list-link"
+                                >Контакты</a
+                            >
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+
+        <main class="main">
+            <section class="admin">
+                <div class="container">
+                    <h1 class="admin__title">Панель управления</h1>
+
+                    <div class="admin__actions">
+                        <a href="/blog/admin/new-post.php" class="admin__button"
+                            >Создать статью</a
+                        >
+                        <a href="/blog/admin/posts.php" class="admin__button"
+                            >Управление статьями</a
+                        >
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <div class="container">
+                <p class="footer__text">&copy; 2025 PHP Blog</p>
+            </div>
+        </footer>
+    </body>
+</html>
