@@ -333,8 +333,12 @@ body {
     text-decoration: underline;
 }
 
-/*ошибки*/
+/* СООБЩЕНИЯ UX */
 
 .err {
     color: red;
+}
+
+.success {
+    color: green;
 }

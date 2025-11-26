@@ -13,9 +13,10 @@
         $error = "";
         function register($email, $password, $confirmPassoword)
         {
+            global $error;
             if ($password !== $confirmPassoword) {
-                global $error;
                 $error = "Введенные пароли не совпадают!";
+                return;
             }
 
             if (strpos($email, "@") === false) {
@@ -37,7 +38,6 @@
                 $userExist = $resultUser["email"];
 
                 if ($userExist === $email) {
-                    global $error;
                     $error = "Данный пользователь уже зарегистрирован";
                     return;
                 }

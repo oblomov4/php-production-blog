@@ -14,7 +14,55 @@
     require_once "../auth/functions.php";
     requireAdmin();
 
-    function addPost() {}
+    $error = "";
+    $success = "";
+    function addPost($title, $content, $image)
+    {
+        global $error;
+        global $success;
+        $name = "";
+
+        if ($image["error"] === UPLOAD_ERR_OK) {
+            if (!is_dir("../upload")) {
+                mkdir("../upload", 0755, true);
+            }
+
+            $name = "../upload/" . basename($image["name"]);
+            move_uploaded_file($image["tmp_name"], $name);
+        } else {
+            switch ($image["error"]) {
+                case UPLOAD_ERR_INI_SIZE:
+                    $error = "Файл слишком большой!";
+                    break;
+                case UPLOAD_ERR_NO_FILE:
+                    $error = "Файл не был загружен!";
+                    break;
+                default:
+                    $error = "Ошибка загрузки файла!";
+            }
+        }
+
+        try {
+            $conn = new PDO("mysql:host=localhost;dbname=blog", "root", "");
+
+            $stmt = $conn->prepare(
+                "INSERT INTO posts (title, image_url, text) VALUES (?, ?, ?)",
+            );
+
+            $stmt->execute([$title, $name, $content]);
+            $success = "Пост добавлен!";
+        } catch (PDOException $e) {
+            $error = $e->getMessage();
+        }
+    }
+
+    if (
+        isset($_POST["title"]) &&
+        isset($_POST["content"]) &&
+        isset($_FILES["image"])
+    ) {
+        addPost($_POST["title"], $_POST["content"], $_FILES["image"]);
+    }
     ?>
     <header class="header">
         <div class="container">
@@ -36,7 +84,6 @@
     </header>
 
     <main class="main">
-
           <section class="admin">
             <div class="container">
                 <h1 class="admin__title">Создать статью</h1>
@@ -56,6 +103,13 @@
 
                     <button type="submit" class="form__button">Опубликовать</button>
                 </form>
+
+                <?php if ($success) {
+                    echo "<p class='success'>$success</p>";
+                } ?>
+                <?php if ($error) {
+                    echo "<p class='error'>$error</p>";
+                } ?>
             </div>
         </section>
     </main>
