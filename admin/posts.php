@@ -10,6 +10,24 @@
 </head>
 
 <body>
+
+<?php
+require_once "../auth/functions.php";
+requireAdmin();
+
+try {
+    $conn = new PDO("mysql:host=localhost;dbname=blog", "root", "");
+
+    $sqlPost = "SELECT id, title, created_at FROM posts";
+
+    $rowPosts = $conn->query($sqlPost);
+
+    $posts = $rowPosts->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    $error = "Произошла ошибка при загрузки постов";
+}
+?>
+
     <header class="header">
         <div class="container">
             <nav class="nav">
@@ -35,21 +53,25 @@
                 <h1 class="admin__title">Управление статьями</h1>
 
                 <div class="posts-list">
+                    <?php foreach ($posts as $post): ?>
                     <div class="post-item">
-                        <h3 class="post-item__title">Что мне дало 2 недели путешествия по Греции</h3>
-                        <p class="post-item__date">Создано: 21 июня 2021</p>
-                        <div class="post-item__actions">
-                            <a href="#" class="post-item__delete">Удалить</a>
-                        </div>
-                    </div>
+                        <h3 class="post-item__title">
+                            <?php echo $post["title"]; ?>
+                        </h3>
+                        <p class="post-item__date">
+                            Создано: <?php echo $post["created_at"]; ?>
+                        </p>
 
-                    <div class="post-item">
-                        <h3 class="post-item__title">Тестовая статья</h3>
-                        <p class="post-item__date">Создано: 15 января 2024</p>
-                        <div class="post-item__actions">
-                            <a href="#" class="post-item__delete">Удалить</a>
-                        </div>
+                        <form method="POST" action="delete_post.php">
+                            <div class="post-item__actions">
+                                <input type="hidden" name="post_id" value="<?= $post[
+                                    "id"
+                                ] ?>">
+                                <button class="post-item__delete">Удалить</button>
+                            </div>
+                        </form>
                     </div>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </section>
