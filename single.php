@@ -93,6 +93,50 @@
             <div class="article__content">
                 <?php echo $post["text"]; ?>
             </div>
+
+
+            <section class="comments">
+                <h2 class="comments__title">Комментарии</h2>
+                    <form class="comments__form">
+                           <div class="comments__field">
+                               <label class="comments__label" for="comment">Комментарий</label>
+                               <textarea class="comments__textarea" id="comment" name="comment" rows="4" required></textarea>
+                           </div>
+
+                           <button class="comments__submit" type="submit">Отправить</button>
+                    </form>
+
+                    <div class="comments__list">
+                        <div class="comment">
+                            <div class="comment__header">
+                                <span class="comment__author">Иван Петров</span>
+                                <span class="comment__date">2025-11-27 19:30:15</span>
+                            </div>
+                            <div class="comment__text">
+                                Отличная статья! Очень познавательно, спасибо за разбор.
+                            </div>
+                           </div>
+
+                           <div class="comment">
+                               <div class="comment__header">
+                                   <span class="comment__author">Мария Сидорова</span>
+                                   <span class="comment__date">2025-11-27 20:45:22</span>
+                               </div>
+                               <div class="comment__text">
+                                   Жду продолжения темы, особенно про типизацию в PHP 8.
+                               </div>
+                           </div>
+                           <div class="comment">
+                               <div class="comment__header">
+                                   <span class="comment__author">Алексей К.</span>
+                                   <span class="comment__date">2025-11-27 21:15:03</span>
+                               </div>
+                               <div class="comment__text">
+                                   А есть примеры реальных проектов на этих технологиях?
+                               </div>
+                           </div>
+                       </div>
+                   </section>
         </div>
     </main>
 

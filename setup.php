@@ -11,7 +11,7 @@ try {
     )";
 
     $conn->exec($sqlUser);
-    echo "Таблица users создана ";
+    echo "Таблица users создана, ";
 
     $sqlPost = 'CREATE TABLE posts (
         id INT PRIMARY KEY AUTO_INCREMENT,
@@ -23,7 +23,7 @@ try {
 
     $conn->exec($sqlPost);
 
-    echo "Таблица posts создана";
+    echo "Таблица posts создана, ";
 
     $sqlComments = 'CREATE TABLE comments (
         id INT PRIMARY KEY AUTO_INCREMENT,
@@ -33,6 +33,9 @@ try {
         FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
         FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE
     )';
+
+    $conn->exec($sqlComments);
+    echo "Таблица coments создана. ";
 } catch (PDOException $e) {
     echo "Connection failed: " . $e->getMessage();
 }
