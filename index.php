@@ -10,7 +10,24 @@
 
     <body>
 
-    <?php require_once "auth/functions.php"; ?>
+    <?php
+    require_once "auth/functions.php";
+
+    $error = "";
+
+    try {
+        $conn = new PDO("mysql:host=localhost;dbname=blog", "root", "");
+
+        $sqlPost = "SELECT * FROM posts";
+
+        $rowPosts = $conn->query($sqlPost);
+
+        $posts = $rowPosts->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        $error = "Произошла ошибка при загрузки постов";
+    }
+    ?>
+
         <header class="header">
             <div class="container">
                 <nav class="nav">
@@ -52,121 +69,38 @@
 
             <section class="blog">
                 <div class="container">
+                    <?php if ($error): ?>
+                        <p class="err">
+                            <?php echo $error; ?>
+                        </p>
+                    <?php endif; ?>
                     <div class="blog__items">
-                        <a class="blog__item" href="/">
+                        <?php foreach ($posts as $post): ?>
+                        <a class="blog__item" href="<?= "single.php?id=" .
+                            $post["id"] ?>">
                             <img
                                 class="blog__item-img"
-                                src="https://www.chitkara.edu.in/blogs/wp-content/uploads/2023/09/Blogging-in-Digital-Marketing.jpg"
+                                src="<?= mb_substr($post["image_url"], 3) ?>"
                                 alt=""
                             />
                             <div class="blog__item-box">
                                 <h3 class="blog__item-title">
-                                    What Traveling Greece For 2
+                                    <?php echo $post["title"]; ?>
                                 </h3>
                                 <p class="blog__item-date">
-                                    Jun 21, 2021 • 11 min read
+                                    <?php echo $post["created_at"]; ?>
                                 </p>
                                 <p class="blog__item-content">
-                                    Lorem ipsum dolor sit amet, consectetur
-                                    adipiscing elit. Diam mollis lectus vitae
-                                    nulla malesuada amet purus sed. A
-                                    condimentum tempus a egestas sodales diam
-                                    cras.
+                                    <?php echo mb_substr(
+                                        $post["text"],
+                                        0,
+                                        150,
+                                    ) . "..."; ?>
                                 </p>
                             </div>
                         </a>
 
-                        <a class="blog__item" href="/">
-                            <img
-                                class="blog__item-img"
-                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSdReLeTDjSn6-KVDiVMd4KJ7bE9TPxn82_g&s"
-                                alt=""
-                            />
-                            <div class="blog__item-box">
-                                <h3 class="blog__item-title">
-                                    Weeks Taught Me About Life
-                                </h3>
-                                <p class="blog__item-date">
-                                    Jun 21, 2021 • 11 min read
-                                </p>
-                                <p class="blog__item-content">
-                                    Lorem ipsum dolor sit amet, consectetur
-                                    adipiscing elit. Diam mollis lectus vitae
-                                    nulla malesuada amet purus sed. A
-                                    condimentum tempus a egestas sodales diam
-                                    cras.
-                                </p>
-                            </div>
-                        </a>
-
-                        <a class="blog__item" href="/">
-                            <img
-                                class="blog__item-img"
-                                src="https://www.chitkara.edu.in/blogs/wp-content/uploads/2023/09/Blogging-in-Digital-Marketing.jpg"
-                                alt=""
-                            />
-                            <div class="blog__item-box">
-                                <h3 class="blog__item-title">TEST TEST TEST</h3>
-                                <p class="blog__item-date">
-                                    Jun 21, 2021 • 11 min read
-                                </p>
-                                <p class="blog__item-content">
-                                    Lorem ipsum dolor sit amet, consectetur
-                                    adipiscing elit. Diam mollis lectus vitae
-                                    nulla malesuada amet purus sed. A
-                                    condimentum tempus a egestas sodales diam
-                                    cras.
-                                </p>
-                            </div>
-                        </a>
-
-                        <a class="blog__item" href="/">
-                            <img
-                                class="blog__item-img"
-                                src="https://www.chitkara.edu.in/blogs/wp-content/uploads/2023/09/Blogging-in-Digital-Marketing.jpg"
-                                alt=""
-                            />
-                            <div class="blog__item-box">
-                                <h3 class="blog__item-title">
-                                    What Traveling Greece For 2 Weeks Taught Me
-                                    About Life
-                                </h3>
-                                <p class="blog__item-date">
-                                    Jun 21, 2021 • 11 min read
-                                </p>
-                                <p class="blog__item-content">
-                                    Lorem ipsum dolor sit amet, consectetur
-                                    adipiscing elit. Diam mollis lectus vitae
-                                    nulla malesuada amet purus sed. A
-                                    condimentum tempus a egestas sodales diam
-                                    cras.
-                                </p>
-                            </div>
-                        </a>
-
-                        <a class="blog__item" href="/">
-                            <img
-                                class="blog__item-img"
-                                src="https://www.chitkara.edu.in/blogs/wp-content/uploads/2023/09/Blogging-in-Digital-Marketing.jpg"
-                                alt=""
-                            />
-                            <div class="blog__item-box">
-                                <h3 class="blog__item-title">
-                                    What Traveling Greece For 2 Weeks Taught Me
-                                    About Life
-                                </h3>
-                                <p class="blog__item-date">
-                                    Jun 21, 2021 • 11 min read
-                                </p>
-                                <p class="blog__item-content">
-                                    Lorem ipsum dolor sit amet, consectetur
-                                    adipiscing elit. Diam mollis lectus vitae
-                                    nulla malesuada amet purus sed. A
-                                    condimentum tempus a egestas sodales diam
-                                    cras.
-                                </p>
-                            </div>
-                        </a>
+                        <?php endforeach; ?>
                     </div>
                 </div>
             </section>

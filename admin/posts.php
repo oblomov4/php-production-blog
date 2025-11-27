@@ -52,6 +52,12 @@ try {
             <div class="container">
                 <h1 class="admin__title">Управление статьями</h1>
 
+                <?php if ($error): ?>
+                    <p class="err">
+                        <?php echo $error; ?>
+                    </p>
+                <?php endif; ?>
+
                 <div class="posts-list">
                     <?php foreach ($posts as $post): ?>
                     <div class="post-item">
