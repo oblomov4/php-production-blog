@@ -19,7 +19,7 @@
                 return;
             }
 
-            if (strpos($email, "@") === false) {
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $error = "Введите корректный email";
                 return;
             }

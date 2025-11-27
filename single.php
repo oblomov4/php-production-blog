@@ -29,8 +29,15 @@
                 http_response_code(404);
                 die("Страница не найдена");
             }
+
+            $stmt = $conn->prepare(
+                "SELECT comments.id, comments.text, users.email, comments.created_at FROM comments LEFT JOIN users ON comments.user_id = users.id WHERE post_id = ? ORDER BY comments.created_at DESC",
+            );
+
+            $stmt->execute([$_GET["id"]]);
+            $comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            $error = "Что-то пошло не так!";
+            $error = $e->getMessage();
         }
     } else {
         http_response_code(404);
@@ -97,45 +104,43 @@
 
             <section class="comments">
                 <h2 class="comments__title">Комментарии</h2>
-                    <form class="comments__form">
+                    <?php if (isAuth()): ?>
+                        <form class="comments__form" method="POST" action="create_comment.php">
                            <div class="comments__field">
                                <label class="comments__label" for="comment">Комментарий</label>
                                <textarea class="comments__textarea" id="comment" name="comment" rows="4" required></textarea>
                            </div>
-
+                           <input type="hidden" name="post_id" value="<?= $_GET[
+                               "id"
+                           ] ?>" />
                            <button class="comments__submit" type="submit">Отправить</button>
-                    </form>
+                        </form>
+
+
+                    <?php else: ?>
+                        <a class="info-link" href="login.php">Войдите в аккаунт чтобы оставить комментарий</a>
+                    <?php endif; ?>
 
                     <div class="comments__list">
+
+                        <?php foreach ($comments as $comment): ?>
+
                         <div class="comment">
                             <div class="comment__header">
-                                <span class="comment__author">Иван Петров</span>
-                                <span class="comment__date">2025-11-27 19:30:15</span>
+                                <span class="comment__author">
+                                    <?php echo $comment["email"]; ?>
+                                </span>
+                                <span class="comment__date">
+                                    <?php echo $comment["created_at"]; ?>
+                                </span>
                             </div>
                             <div class="comment__text">
-                                Отличная статья! Очень познавательно, спасибо за разбор.
+                                <?php echo $comment["text"]; ?>
                             </div>
-                           </div>
+                        </div>
 
-                           <div class="comment">
-                               <div class="comment__header">
-                                   <span class="comment__author">Мария Сидорова</span>
-                                   <span class="comment__date">2025-11-27 20:45:22</span>
-                               </div>
-                               <div class="comment__text">
-                                   Жду продолжения темы, особенно про типизацию в PHP 8.
-                               </div>
-                           </div>
-                           <div class="comment">
-                               <div class="comment__header">
-                                   <span class="comment__author">Алексей К.</span>
-                                   <span class="comment__date">2025-11-27 21:15:03</span>
-                               </div>
-                               <div class="comment__text">
-                                   А есть примеры реальных проектов на этих технологиях?
-                               </div>
-                           </div>
-                       </div>
+                        <?php endforeach; ?>
+                    </div>
                    </section>
         </div>
     </main>
