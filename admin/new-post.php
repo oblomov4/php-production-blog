@@ -49,7 +49,11 @@
                 "INSERT INTO posts (title, image_url, text) VALUES (?, ?, ?)",
             );
 
-            $stmt->execute([$title, $name, $content]);
+            $stmt->execute([
+                htmlentities($title),
+                $name,
+                htmlentities($content),
+            ]);
             $success = "Пост добавлен!";
         } catch (PDOException $e) {
             $error = $e->getMessage();

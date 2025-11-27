@@ -81,7 +81,7 @@
                             <img
                                 class="blog__item-img"
                                 src="<?= mb_substr($post["image_url"], 3) ?>"
-                                alt=""
+                                alt="<?= $post["title"] ?>"
                             />
                             <div class="blog__item-box">
                                 <h3 class="blog__item-title">

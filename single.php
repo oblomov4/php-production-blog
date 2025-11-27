@@ -10,6 +10,33 @@
 </head>
 
 <body>
+    <?php
+    require_once "auth/functions.php";
+
+    $error = "";
+
+    if (isset($_GET["id"])) {
+        try {
+            $conn = new PDO("mysql:host=localhost;dbname=blog", "root", "");
+
+            $stmt = $conn->prepare("SELECT * FROM posts WHERE id = ?");
+
+            $stmt->execute([$_GET["id"]]);
+
+            $post = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$post) {
+                http_response_code(404);
+                die("Страница не найдена");
+            }
+        } catch (PDOException $e) {
+            $error = "Что-то пошло не так!";
+        }
+    } else {
+        http_response_code(404);
+        die("Страница не найдена");
+    }
+    ?>
     <header class="header">
         <div class="container">
             <nav class="nav">
@@ -19,11 +46,22 @@
 
                 <ul class="nav__list">
                     <li class="nav__list-item">
-                        <a href="" class="nav__list-link">Blog</a>
+                        <a href="index.php" class="nav__list-link">Блог</a>
                     </li>
                     <li class="nav__list-item">
-                        <a href="" class="nav__list-link">Contact</a>
+                        <a href="contact.php" class="nav__list-link">Контакты</a>
                     </li>
+                    <?php if (!isAuth()): ?>
+                    <li class="nav__list-item">
+                        <a href="login.php" class="nav__list-link">Вход</a>
+                    </li>
+                    <?php endif; ?>
+
+                    <?php if (isAdmin()): ?>
+                    <li class="nav__list-item">
+                        <a href="/blog/admin" class="nav__list-link">Админка</a>
+                    </li>
+                    <?php endif; ?>
                 </ul>
             </nav>
         </div>
@@ -31,27 +69,29 @@
 
     <main class="main">
         <div class="container">
-            <h1 class="article__title">Что мне дало 2 недели путешествия по Греции</h1>
+
+            <?php if ($error): ?>
+                <p class="err">
+                    <?php echo $error; ?>
+                </p>
+            <?php endif; ?>
+
+            <h1 class="article__title"><?php echo $post["title"]; ?></h1>
 
             <div class="article__meta">
-                <span class="article__date">21 июня 2021</span>
-                <span class="article__read-time">11 мин чтения</span>
+                <span class="article__date"><?php echo $post[
+                    "created_at"
+                ]; ?></span>
             </div>
 
-            <img src="https://www.chitkara.edu.in/blogs/wp-content/uploads/2023/09/Blogging-in-Digital-Marketing.jpg"
-                alt="Путешествие по Греции" class="article__img">
+            <img
+                class="article__img"
+                src="<?= mb_substr($post["image_url"], 3) ?>"
+                alt="<?= $post["title"] ?>"
+            />
 
             <div class="article__content">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam mollis lectus vitae nulla malesuada amet
-                purus sed. A condimentum tempus a egestas sodales diam cras. Lorem ipsum dolor sit amet, consectetur
-                adipiscing elit. Diam mollis lectus vitae nulla malesuada amet purus sed. A condimentum tempus a egestas
-                sodales diam cras. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam mollis lectus vitae
-                nulla malesuada amet purus sed. A condimentum tempus a egestas sodales diam cras.
-
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam mollis lectus vitae nulla malesuada amet
-                purus sed. A condimentum tempus a egestas sodales diam cras. Lorem ipsum dolor sit amet, consectetur
-                adipiscing elit. Diam mollis lectus vitae nulla malesuada amet purus sed. A condimentum tempus a egestas
-                sodales diam cras.
+                <?php echo $post["text"]; ?>
             </div>
         </div>
     </main>
