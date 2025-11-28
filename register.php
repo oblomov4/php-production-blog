@@ -10,10 +10,17 @@
 
     <body>
         <?php
+        require_once "auth/functions.php";
+        generateCsrfToken();
+
         $error = "";
         function register($email, $password, $confirmPassoword)
         {
             global $error;
+
+            if ($_SESSION["csrf_token"] !== $_POST["csrf_token"]) {
+                die("CSRF атака заблокирована!");
+            }
             if ($password !== $confirmPassoword) {
                 $error = "Введенные пароли не совпадают!";
                 return;
@@ -59,7 +66,8 @@
         if (
             isset($_POST["email"]) &&
             isset($_POST["password"]) &&
-            isset($_POST["confirm_password"])
+            isset($_POST["confirm_password"]) &&
+            isset($_POST["csrf_token"])
         ) {
             register(
                 $_POST["email"],
@@ -121,6 +129,9 @@
                                     required
                                 />
                             </div>
+                            <input type="hidden" name="csrf_token" value="<?= $_SESSION[
+                                "csrf_token"
+                            ] ?>">
                             <button type="submit" class="form__button">
                                 Зарегистрироваться
                             </button>

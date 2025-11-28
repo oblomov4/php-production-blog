@@ -422,11 +422,6 @@ button {
     background: #0056b3;
 }
 
-/* Список комментариев */
-.comments__list {
-    space-y: 20px;
-}
-
 .comment {
     border-bottom: 1px solid #eee;
     padding-bottom: 20px;

@@ -6,6 +6,10 @@ if (!isAuth()) {
     die("Forbidden: Authentication required");
 }
 
+if ($_SESSION["csrf_token"] !== $_POST["csrf_token"]) {
+    die("CSRF атака заблокирована!");
+}
+
 if (isset($_POST["post_id"]) && isset($_POST["comment"])) {
     try {
         $conn = new PDO("mysql:host=localhost;dbname=blog", "root", "");

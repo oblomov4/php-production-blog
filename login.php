@@ -11,11 +11,16 @@
 
 <body>
 <?php
-session_start();
+require_once "auth/functions.php";
+generateCsrfToken();
 
 function login($email, $password)
 {
-    if (strpos($email, "@") === false) {
+    if ($_SESSION["csrf_token"] !== $_POST["csrf_token"]) {
+        die("CSRF атака заблокирована!");
+    }
+
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         return "Введите корректный email!";
     }
 
@@ -74,6 +79,9 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
                         <div class="form__group">
                             <input type="password" name="password" placeholder="Пароль" class="form__input" required>
                         </div>
+                        <input type="hidden" name="csrf_token" value="<?= $_SESSION[
+                            "csrf_token"
+                        ] ?>">
                         <button type="submit" class="form__button">Войти</button>
                     </form>
                     <p class="auth__link">

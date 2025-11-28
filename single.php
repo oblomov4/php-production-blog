@@ -12,6 +12,7 @@
 <body>
     <?php
     require_once "auth/functions.php";
+    generateCsrfToken();
 
     $error = "";
 
@@ -113,6 +114,9 @@
                            <input type="hidden" name="post_id" value="<?= $_GET[
                                "id"
                            ] ?>" />
+                           <input type="hidden" name="csrf_token" value="<?= $_SESSION[
+                               "csrf_token"
+                           ] ?>">
                            <button class="comments__submit" type="submit">Отправить</button>
                         </form>
 
